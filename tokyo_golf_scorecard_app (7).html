@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>東京ゴルフ倶楽部 スコアカード</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg1:#fff;--bg2:#f5f5f3;--bg3:#efefed;
+  --tx1:#1a1a1a;--tx2:#666;
+  --bd3:rgba(0,0,0,0.12);--bd2:rgba(0,0,0,0.22);--bd1:rgba(0,0,0,0.35);
+  --r-md:8px;--r-lg:12px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg1:#1e1e1e;--bg2:#2a2a2a;--bg3:#141414;
+  --tx1:#f0f0f0;--tx2:#999;
+  --bd3:rgba(255,255,255,0.1);--bd2:rgba(255,255,255,0.2);--bd1:rgba(255,255,255,0.3);
+}}
+body{font-family:var(--font);background:var(--bg3);color:var(--tx1);-webkit-text-size-adjust:100%}
+.app{max-width:480px;margin:0 auto;padding:0 0 100px}
+.screen{display:none}.screen.active{display:block}
+.hdr{background:var(--bg1);border-bottom:0.5px solid var(--bd3);padding:12px 16px;position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px}
+.hdr-text{flex:1}.hdr h1{font-size:15px;font-weight:500}.hdr p{font-size:11px;color:var(--tx2);margin-top:1px}
+.hdr-save{font-size:11px;color:var(--tx2);background:var(--bg2);border:0.5px solid var(--bd3);border-radius:6px;padding:4px 8px;cursor:pointer}
+.sec{background:var(--bg1);border-radius:var(--r-lg);border:0.5px solid var(--bd3);margin:10px 12px;overflow:hidden}
+.sec-ttl{font-size:11px;font-weight:500;color:var(--tx2);padding:9px 14px 5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:0.5px solid var(--bd3)}
+.field{padding:10px 14px;border-bottom:0.5px solid var(--bd3);display:flex;align-items:center;gap:10px}
+.field:last-child{border-bottom:none}
+.field label{font-size:14px;flex:1}
+.field select,.field input[type=number]{border:0.5px solid var(--bd2);border-radius:var(--r-md);padding:6px 10px;font-size:14px;background:var(--bg2);color:var(--tx1);width:140px;text-align:right}
+.field select:focus,.field input:focus{outline:none;border-color:var(--bd1)}
+.pb{padding:12px 14px;border-bottom:0.5px solid var(--bd3)}.pb:last-child{border-bottom:none}
+.pr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
+.p0{background:#E6F1FB;color:#0C447C}.p1{background:#EAF3DE;color:#27500A}
+.p2{background:#FAEEDA;color:#633806}.p3{background:#FBEAF0;color:#72243E}
+.pni{flex:1;border:0.5px solid var(--bd2);border-radius:var(--r-md);padding:6px 10px;font-size:14px;background:var(--bg2);color:var(--tx1)}
+.pni:focus{outline:none;border-color:var(--bd1)}
+.hi{border:0.5px solid var(--bd2);border-radius:var(--r-md);padding:5px 8px;font-size:14px;background:var(--bg2);color:var(--tx1);width:70px;text-align:center}
+.mrow{display:flex;background:var(--bg2);border-radius:var(--r-md);margin:8px 12px;overflow:hidden;border:0.5px solid var(--bd3)}
+.mc{flex:1;padding:8px 10px;text-align:center;border-right:0.5px solid var(--bd3)}.mc:last-child{border-right:none}
+.mc .ml{font-size:11px;color:var(--tx2)}
+.mc input{width:100%;border:none;background:transparent;font-size:15px;font-weight:500;text-align:center;color:var(--tx1);padding:3px 0}
+.mc input:focus{outline:none}
+.btn{display:block;width:calc(100% - 24px);margin:10px 12px;padding:13px;background:var(--bg1);border:0.5px solid var(--bd2);border-radius:var(--r-lg);font-size:15px;font-weight:500;cursor:pointer;color:var(--tx1);text-align:center}
+.btn:active{transform:scale(0.98)}
+.btn-pri{background:#0C447C;border-color:#0C447C;color:#fff}
+.ntabs{display:flex;border-bottom:0.5px solid var(--bd3);background:var(--bg1);position:sticky;top:53px;z-index:19}
+.ntab{flex:1;padding:9px 4px;font-size:12px;text-align:center;border:none;background:transparent;cursor:pointer;color:var(--tx2);border-bottom:2px solid transparent;font-weight:500}
+.ntab.active{color:#0C447C;border-bottom-color:#0C447C}
+.sbar{background:var(--bg1);padding:8px 10px;display:flex;flex-direction:column;gap:6px;margin:8px 0 0;border-top:0.5px solid var(--bd3);border-bottom:0.5px solid var(--bd3)}
+.sbar-row{display:flex;gap:5px}
+.sc{flex:1;min-width:56px;background:var(--bg1);border:0.5px solid var(--bd3);border-radius:var(--r-md);padding:5px 6px;text-align:center}
+.sc .sl{font-size:10px;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc .sv{font-size:14px;font-weight:500;margin-top:1px}
+.sc.sc-total .sl{font-weight:500}
+.sc-diff-pos{color:#A32D2D}.sc-diff-neg{color:#27500A}.sc-diff-e{color:var(--tx2)}
+.lb{margin:8px 0 0;background:var(--bg1);border:none;border-top:0.5px solid var(--bd3);border-bottom:0.5px solid var(--bd3);border-radius:0;overflow:hidden}
+.lb-hdr{padding:8px 12px;border-bottom:0.5px solid var(--bd3);font-size:11px;font-weight:500;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;justify-content:space-between}
+.lb-row{display:flex;align-items:center;padding:8px 12px;border-bottom:0.5px solid var(--bd3);gap:8px;font-size:13px}
+.lb-row:last-child{border-bottom:none}
+.lb-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
+.lb-name{flex:1;font-weight:500}
+.lb-pts{font-size:12px;color:var(--tx2);margin-right:4px}
+.lb-money{font-weight:500;min-width:60px;text-align:right}
+.pos{color:#27500A}.neg{color:#A32D2D}.zero{color:var(--tx2)}
+.lb-team{padding:8px 12px;background:var(--bg2);border-top:0.5px solid var(--bd3);font-size:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tbadge{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
+.ta{background:#E6F1FB;color:#0C447C}.tb{background:#FAEEDA;color:#633806}
+.twin{color:#27500A;font-weight:500}.tlose{color:#A32D2D;font-weight:500}.tdraw{color:var(--tx2)}
+.hnav{display:flex;align-items:center;gap:6px;padding:8px 10px;background:var(--bg3)}
+.hnav-btn{width:36px;height:36px;border:0.5px solid var(--bd2);border-radius:var(--r-md);background:var(--bg1);font-size:16px;cursor:pointer;color:var(--tx1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hdots{display:flex;gap:3px;flex:1;justify-content:center;flex-wrap:nowrap}
+.hdot{width:32px;height:32px;border-radius:50%;border:0.5px solid var(--bd2);background:var(--bg2);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--tx2)}
+.hdot.done{background:#E6F1FB;border-color:#378ADD;color:#0C447C}
+.hdot.cur{background:#0C447C;border-color:#0C447C;color:#fff;font-weight:500}
+.hcard{background:var(--bg1);border-radius:0;border:none;border-top:0.5px solid var(--bd3);border-bottom:0.5px solid var(--bd3);margin:0}
+.hcard-hdr{background:var(--bg2);padding:10px 14px;border-bottom:0.5px solid var(--bd3);display:flex;align-items:center;justify-content:space-between}
+.hnum{font-size:17px;font-weight:500}.hmeta{font-size:11px;color:var(--tx2)}
+.hpar{font-size:12px;font-weight:500;background:#E6F1FB;color:#0C447C;padding:3px 10px;border-radius:20px}
+.srow{display:flex;align-items:center;padding:9px 12px;border-bottom:0.5px solid var(--bd3);gap:8px}
+.srow:last-child{border-bottom:none}
+.sav{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.sname{font-size:13px;flex:1;line-height:1.4}
+.shb{font-size:10px;color:var(--tx2);background:var(--bg2);padding:1px 5px;border-radius:8px;margin-left:3px}
+.best-badge{font-size:10px;padding:2px 6px;border-radius:8px;margin-left:3px;font-weight:500}
+.bb-norm{background:#EAF3DE;color:#27500A}.bb-bird{background:#FAEEDA;color:#633806}.bb-eagle{background:#E6F1FB;color:#0C447C}
+.stepper{display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden;flex-shrink:0}
+.p-stepper{display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden;flex-shrink:0}
+.stepper-btn{width:38px;height:40px;border:none;background:var(--bg2);color:var(--tx1);font-size:22px;font-weight:300;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;user-select:none}
+.stepper-btn:active{background:var(--bd3)}
+.stepper-val{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500;border-left:0.5px solid var(--bd3);border-right:0.5px solid var(--bd3);background:var(--bg1);color:var(--tx1)}
+.stepper-val.is-best{background:#EAF3DE;color:#27500A}
+.stepper-val.is-birdie{background:#FAEEDA;color:#633806}
+.stepper-val.is-eagle{background:#E6F1FB;color:#0C447C}
+.stepper-val.is-par{color:var(--tx2)}
+.hdcp-badge{font-size:10px;padding:2px 5px;border-radius:8px;margin-left:2px;background:#F1EFE8;color:#5F5E5A}
+.hole-result{padding:6px 14px;border-top:0.5px solid var(--bd3);font-size:12px;color:var(--tx2);background:var(--bg2)}
+.rc{background:var(--bg1);border-radius:var(--r-lg);border:0.5px solid var(--bd3);margin:8px 12px;overflow:hidden}
+.rh{padding:12px 14px;border-bottom:0.5px solid var(--bd3);display:flex;align-items:center;gap:10px}
+.ramount{margin-left:auto;font-size:18px;font-weight:500}
+.rrow{display:flex;padding:8px 14px;border-bottom:0.5px solid var(--bd3);font-size:13px;gap:8px;align-items:center}
+.rrow:last-child{border-bottom:none}
+.rlbl{color:var(--tx2);flex:1}.rval{font-weight:500}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+.resume-banner{background:#EAF3DE;border:0.5px solid #3B6D11;border-radius:var(--r-lg);margin:10px 12px;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.rb-text{flex:1;font-size:13px;color:#27500A;line-height:1.4}
+.rb-btns{display:flex;gap:6px;flex-shrink:0}
+.rb-btn{padding:6px 12px;border-radius:var(--r-md);font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid}
+.rb-yes{background:#0C447C;border-color:#0C447C;color:#fff}
+.rb-no{background:transparent;border-color:#3B6D11;color:#27500A}
+.combo-list{display:flex;flex-direction:column;gap:8px;padding:10px 14px}
+.combo-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:0.5px solid var(--bd2);border-radius:var(--r-md);cursor:pointer;background:var(--bg2)}
+.combo-item.selected{border-color:#0C447C;background:#E6F1FB}
+.combo-item .ci-teams{flex:1;font-size:13px}
+.combo-item .ci-diff{font-size:11px;color:var(--tx2)}
+.combo-item .ci-check{width:18px;height:18px;border-radius:50%;border:0.5px solid var(--bd2);background:var(--bg1);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px}
+.combo-item.selected .ci-check{background:#0C447C;border-color:#0C447C;color:#fff}
+.setup-view{padding:10px 12px;opacity:0.7}
+.setup-view .sv-row{display:flex;padding:7px 0;border-bottom:0.5px solid var(--bd3);font-size:13px;gap:8px}
+.setup-view .sv-row:last-child{border-bottom:none}
+.setup-view .sv-lbl{color:var(--tx2);flex:1}
+.setup-view .sv-val{font-weight:500}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:300}
+.modal-box{background:var(--bg1);border-radius:var(--r-lg);border:0.5px solid var(--bd2);padding:20px;margin:16px;max-width:320px;width:100%}
+.modal-title{font-size:15px;font-weight:500;margin-bottom:8px}
+.modal-msg{font-size:13px;color:var(--tx2);margin-bottom:16px;line-height:1.5}
+.modal-btns{display:flex;gap:8px}
+.modal-btns button{flex:1;padding:11px;border-radius:var(--r-md);font-size:14px;font-weight:500;cursor:pointer;border:0.5px solid}
+.modal-cancel{background:var(--bg2);border-color:var(--bd2);color:var(--tx1)}
+.modal-confirm{background:#A32D2D;border-color:#A32D2D;color:#fff}
+.bet-row{display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden}
+.bet-row button{width:44px;height:42px;border:none;background:var(--bg2);color:var(--tx1);font-size:20px;cursor:pointer;flex-shrink:0}
+.bet-row button:active{opacity:0.7}
+.bet-row span{flex:1;height:42px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;border-left:0.5px solid var(--bd3);border-right:0.5px solid var(--bd3);background:var(--bg1);color:var(--tx1)}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="app">
+
+<div class="screen active" id="screen-setup">
+  <div class="hdr"><div class="hdr-text"><h1>東京ゴルフ倶楽部</h1><p>ゲーム設定</p></div></div>
+  <div id="resume-area"></div>
+  <div class="sec">
+    <div class="sec-ttl">コース・スタート</div>
+    <div class="field"><label>コース</label>
+      <select id="course-sel"><option value="chichibu">CHICHIBU</option><option value="asaka">ASAKA</option></select></div>
+    <div class="field"><label>スタートホール</label>
+      <select id="start-sel"><option value="out">OUT (1番〜)</option><option value="in">IN (10番〜)</option></select></div>
+  </div>
+  <div class="sec">
+    <div class="sec-ttl">設定単価</div>
+    <div style="display:flex;gap:0;padding:10px 12px 6px;align-items:flex-end">
+      <div style="flex:1;text-align:center">
+        <div style="font-size:11px;color:var(--tx2);margin-bottom:6px">個人</div>
+        <div style="display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden">
+          <button type="button" onclick="stepBet('i',-100)" style="width:32px;height:38px;border:none;background:var(--bg2);color:var(--tx1);font-size:18px;cursor:pointer">−</button>
+          <span id="bv-i" style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;border-left:0.5px solid var(--bd3);border-right:0.5px solid var(--bd3);background:var(--bg1);color:var(--tx1)">300</span>
+          <button type="button" onclick="stepBet('i',+100)" style="width:32px;height:38px;border:none;background:var(--bg2);color:var(--tx1);font-size:18px;cursor:pointer">+</button>
+        </div>
+      </div>
+      <div style="flex:1;text-align:center;margin-left:8px">
+        <div style="font-size:11px;color:var(--tx2);margin-bottom:6px">ベスト</div>
+        <div style="display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden">
+          <button type="button" onclick="stepBet('b',-100)" style="width:32px;height:38px;border:none;background:var(--bg2);color:var(--tx1);font-size:18px;cursor:pointer">−</button>
+          <span id="bv-b" style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;border-left:0.5px solid var(--bd3);border-right:0.5px solid var(--bd3);background:var(--bg1);color:var(--tx1)">100</span>
+          <button type="button" onclick="stepBet('b',+100)" style="width:32px;height:38px;border:none;background:var(--bg2);color:var(--tx1);font-size:18px;cursor:pointer">+</button>
+        </div>
+      </div>
+      <div style="flex:1;text-align:center;margin-left:8px">
+        <div style="font-size:11px;color:var(--tx2);margin-bottom:6px">チーム</div>
+        <div style="display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden">
+          <button type="button" onclick="stepBet('t',-100)" style="width:32px;height:38px;border:none;background:var(--bg2);color:var(--tx1);font-size:18px;cursor:pointer">−</button>
+          <span id="bv-t" style="flex:1;height:38px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;border-left:0.5px solid var(--bd3);border-right:0.5px solid var(--bd3);background:var(--bg1);color:var(--tx1)">500</span>
+          <button type="button" onclick="stepBet('t',+100)" style="width:32px;height:38px;border:none;background:var(--bg2);color:var(--tx1);font-size:18px;cursor:pointer">+</button>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="bh-i" value="300">
+    <input type="hidden" id="bet-i" value="300">
+    <input type="hidden" id="bh-b" value="100">
+    <input type="hidden" id="bet-b" value="100">
+    <input type="hidden" id="bh-t" value="500">
+    <input type="hidden" id="bet-t" value="500">
+  </div>
+  <div class="sec">
+    <div class="sec-ttl">プレイヤー</div>
+    <div class="pb">
+      <div class="pr"><div class="av p0" id="av0">A</div><input class="pni" id="pn0" value="" placeholder="プレイヤー1" maxlength="6" oninput="updateTeamSuggestion()"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <label style="font-size:13px;color:var(--tx2);flex:1">HDCP</label>
+        <div style="display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden">
+          <button type="button" onclick="stepHdcp(0,-1)" style="width:40px;height:40px;border:none;background:var(--bg2);color:var(--tx1);font-size:22px;cursor:pointer;flex-shrink:0">−</button>
+          <span id="hv0" style="width:44px;height:40px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:500;border-left:0.5px solid var(--bd3);border-right:0.5px solid var(--bd3);background:var(--bg1);color:var(--tx2)">18</span>
+          <button type="button" onclick="stepHdcp(0,+1)" style="width:40px;height:40px;border:none;background:var(--bg2);color:var(--tx1);font-size:22px;cursor:pointer;flex-shrink:0">+</button>
+        </div>
+        <input type="hidden" id="ph0" value="18">
+      </div>
+    </div>
+    <div class="pb">
+      <div class="pr"><div class="av p1" id="av1">B</div><input class="pni" id="pn1" value="" placeholder="プレイヤー2" maxlength="6" oninput="updateTeamSuggestion()"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <label style="font-size:13px;color:var(--tx2);flex:1">HDCP</label>
+        <div style="display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden">
+          <button type="button" onclick="stepHdcp(1,-1)" style="width:40px;height:40px;border:none;background:var(--bg2);color:var(--tx1);font-size:22px;cursor:pointer;flex-shrink:0">−</button>
+          <span id="hv1" style="width:44px;height:40px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:500;border-left:0.5px solid var(--bd3);border-right:0.5px solid var(--bd3);background:var(--bg1);color:var(--tx2)">20</span>
+          <button type="button" onclick="stepHdcp(1,+1)" style="width:40px;height:40px;border:none;background:var(--bg2);color:var(--tx1);font-size:22px;cursor:pointer;flex-shrink:0">+</button>
+        </div>
+        <input type="hidden" id="ph1" value="20">
+      </div>
+    </div>
+    <div class="pb">
+      <div class="pr"><div class="av p2" id="av2">C</div><input class="pni" id="pn2" value="" placeholder="プレイヤー3" maxlength="6" oninput="updateTeamSuggestion()"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <label style="font-size:13px;color:var(--tx2);flex:1">HDCP</label>
+        <div style="display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden">
+          <button type="button" onclick="stepHdcp(2,-1)" style="width:40px;height:40px;border:none;background:var(--bg2);color:var(--tx1);font-size:22px;cursor:pointer;flex-shrink:0">−</button>
+          <span id="hv2" style="width:44px;height:40px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:500;border-left:0.5px solid var(--bd3);border-right:0.5px solid var(--bd3);background:var(--bg1);color:var(--tx2)">16</span>
+          <button type="button" onclick="stepHdcp(2,+1)" style="width:40px;height:40px;border:none;background:var(--bg2);color:var(--tx1);font-size:22px;cursor:pointer;flex-shrink:0">+</button>
+        </div>
+        <input type="hidden" id="ph2" value="16">
+      </div>
+    </div>
+    <div class="pb">
+      <div class="pr"><div class="av p3" id="av3">D</div><input class="pni" id="pn3" value="" placeholder="プレイヤー4" maxlength="6" oninput="updateTeamSuggestion()"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <label style="font-size:13px;color:var(--tx2);flex:1">HDCP</label>
+        <div style="display:flex;align-items:center;border:0.5px solid var(--bd2);border-radius:var(--r-md);overflow:hidden">
+          <button type="button" onclick="stepHdcp(3,-1)" style="width:40px;height:40px;border:none;background:var(--bg2);color:var(--tx1);font-size:22px;cursor:pointer;flex-shrink:0">−</button>
+          <span id="hv3" style="width:44px;height:40px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:500;border-left:0.5px solid var(--bd3);border-right:0.5px solid var(--bd3);background:var(--bg1);color:var(--tx2)">22</span>
+          <button type="button" onclick="stepHdcp(3,+1)" style="width:40px;height:40px;border:none;background:var(--bg2);color:var(--tx1);font-size:22px;cursor:pointer;flex-shrink:0">+</button>
+        </div>
+        <input type="hidden" id="ph3" value="22">
+      </div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-ttl">チーム分け（自動計算）</div>
+    <div style="padding:12px 14px"><div id="team-suggestion" style="font-size:13px;color:var(--tx2);text-align:center">プレイヤー情報を入力すると自動計算されます</div></div>
+  </div>
+  <button class="btn btn-pri" onclick="startGame()">ゲーム開始</button>
+</div>
+
+<div class="screen" id="screen-score">
+  <div class="hdr">
+    <div class="hdr-text"><h1 id="sc-name">CHICHIBU</h1><p id="sc-sub">スコア入力</p></div>
+    <button class="hdr-save" onclick="manualSave()">保存</button>
+  </div>
+  <div class="ntabs">
+    <button class="ntab" id="tab-config" onclick="switchScoreTab('config',this)">設定</button>
+    <button class="ntab active" id="tab-out" onclick="switchScoreTab('out',this)">OUT</button>
+    <button class="ntab" id="tab-in" onclick="switchScoreTab('in',this)">IN</button>
+    <button class="ntab" id="tab-results" onclick="switchScoreTab('results',this)">集計結果</button>
+  </div>
+  <div id="score-config-view" style="display:none"></div>
+  <div id="score-main" style="background:var(--bg3);padding-bottom:12px">
+    <div id="score-summary" class="sbar"></div>
+    <div style="background:var(--bg3);height:8px"></div>
+    <div id="hole-navigator"></div>
+    <div id="hole-cards"></div>
+    <div style="background:var(--bg3);height:8px"></div>
+    <div id="leaderboard"></div>
+    <div id="team-board"></div>
+  </div>
+</div>
+
+<div class="screen" id="screen-results">
+  <div class="hdr">
+    <div class="hdr-text"><h1 id="res-title">集計結果</h1><p id="res-sub"></p></div>
+    <button class="hdr-save" onclick="manualSave()">保存</button>
+  </div>
+  <div class="ntabs" id="res-tabs">
+    <button class="ntab" onclick="switchScoreTab('config',this)">設定</button>
+    <button class="ntab" onclick="switchToScore('out',this)">OUT</button>
+    <button class="ntab" onclick="switchToScore('in',this)">IN</button>
+    <button class="ntab active">集計結果</button>
+  </div>
+  <div id="results-content"></div>
+</div>
+
+</div>
+<div class="modal-overlay" id="reset-modal" style="display:none">
+  <div class="modal-box">
+    <div class="modal-title">再設定の確認</div>
+    <div class="modal-msg">入力済みのスコアデータをすべて消去して、設定画面に戻ります。よろしいですか？</div>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeResetModal()">キャンセル</button>
+      <button class="modal-confirm" onclick="doReset()">消去して再設定</button>
+    </div>
+  </div>
+</div>
+<script>
+const COURSES={
+  chichibu:{name:"CHICHIBU",holes:[
+    {n:1,par:4,hdcp:13},{n:2,par:4,hdcp:3},{n:3,par:5,hdcp:9},{n:4,par:3,hdcp:17},
+    {n:5,par:5,hdcp:7},{n:6,par:4,hdcp:1},{n:7,par:4,hdcp:5},{n:8,par:3,hdcp:15},
+    {n:9,par:4,hdcp:11},{n:10,par:4,hdcp:6},{n:11,par:4,hdcp:10},{n:12,par:3,hdcp:14},
+    {n:13,par:5,hdcp:2},{n:14,par:4,hdcp:8},{n:15,par:5,hdcp:18},{n:16,par:4,hdcp:4},
+    {n:17,par:3,hdcp:16},{n:18,par:4,hdcp:12}
+  ]},
+  asaka:{name:"ASAKA",holes:[
+    {n:1,par:4,hdcp:13},{n:2,par:4,hdcp:3},{n:3,par:5,hdcp:9},{n:4,par:3,hdcp:17},
+    {n:5,par:5,hdcp:7},{n:6,par:4,hdcp:1},{n:7,par:4,hdcp:5},{n:8,par:3,hdcp:15},
+    {n:9,par:4,hdcp:11},{n:10,par:4,hdcp:6},{n:11,par:4,hdcp:10},{n:12,par:3,hdcp:14},
+    {n:13,par:5,hdcp:2},{n:14,par:4,hdcp:8},{n:15,par:5,hdcp:18},{n:16,par:4,hdcp:4},
+    {n:17,par:3,hdcp:16},{n:18,par:4,hdcp:12}
+  ]}
+};
+const PC=['p0','p1','p2','p3'];
+const SAVE_KEY='tgc_state_v3';
+
+let G={course:'chichibu',start:'out',players:[],bets:{i:500,b:100,t:1000},teams:[],teamHdcp:0,scores:{},currentHalf:'out',currentHole:0};
+
+function dn(name,max){
+  // Display name: truncate to max chars
+  max=max||4;
+  return name.length>max?name.substring(0,max)+'…':name;
+}
+
+function saveState(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(G));}catch(e){}}
+function loadState(){try{const r=localStorage.getItem(SAVE_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
+function clearState(){try{localStorage.removeItem(SAVE_KEY);}catch(e){}}
+function manualSave(){saveState();showToast('データを保存しました ✓');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+function init(){
+  buildSetupPlayers();
+  const saved=loadState();
+  if(saved&&saved.players&&saved.players.length>0){
+    const d=new Date(saved._savedAt||0);
+    const ds=saved._savedAt?`（${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')} 保存）`:'';
+    document.getElementById('resume-area').innerHTML=`
+      <div class="resume-banner">
+        <div class="rb-text">前回のゲームデータが見つかりました${ds}<br>続きから始めますか？</div>
+        <div class="rb-btns">
+          <button class="rb-btn rb-yes" onclick="resumeGame()">再開</button>
+          <button class="rb-btn rb-no" onclick="dismissResume()">新規</button>
+        </div>
+      </div>`;
+  }
+}
+
+function buildSetupPlayers(){
+  // Players are now hardcoded in HTML — just trigger team suggestion
+  updateTeamSuggestion();
+}
+
+function stepHdcp(i, delta){
+  const hidden = document.getElementById('ph'+i);
+  const display = document.getElementById('hv'+i);
+  if(!hidden||!display) return;
+  const cur = parseInt(hidden.value)||0;
+  const next = Math.max(0, Math.min(54, cur+delta));
+  hidden.value = String(next);
+  display.textContent = String(next);
+  updateTeamSuggestion();
+}
+
+function stepBet(key, delta){
+  const hid=document.getElementById('bh-'+key);
+  const disp=document.getElementById('bv-'+key);
+  const sync=document.getElementById('bet-'+key);
+  if(!hid||!disp)return;
+  const cur=parseInt(hid.value)||0;
+  const next=Math.max(0, cur+delta);
+  hid.value=String(next);
+  if(sync)sync.value=String(next);
+  disp.textContent=next.toLocaleString();
+}
+
+function getSetupPlayers(){
+  const ps=[];
+  for(let i=0;i<4;i++){
+    const n=document.getElementById(`pn${i}`),h=document.getElementById(`ph${i}`);
+    if(n&&h)ps.push({name:n.value||['A','B','C','D'][i],hdcp:parseInt(h.value)||0,idx:i});
+  }
+  return ps;
+}
+
+function bestTeamSplit(ps){
+  const combos=[[0,1],[0,2],[0,3]];let best=null,bd=999;
+  combos.forEach(([a,b])=>{
+    const c=[0,1,2,3].filter(x=>x!==a&&x!==b);
+    const s1=ps[a].hdcp+ps[b].hdcp,s2=ps[c[0]].hdcp+ps[c[1]].hdcp;
+    const diff=Math.abs(s1-s2);
+    if(diff<bd){bd=diff;best={t1:[a,b],t2:c,s1,s2};}
+  });
+  return best;
+}
+
+// selectedCombo: index into allCombos, or -1 for auto
+let selectedCombo=-1;
+
+function allTeamCombos(ps){
+  return[[0,1],[0,2],[0,3]].map(([a,b])=>{
+    const c=[0,1,2,3].filter(x=>x!==a&&x!==b);
+    return{t1:[a,b],t2:c,s1:ps[a].hdcp+ps[b].hdcp,s2:ps[c[0]].hdcp+ps[c[1]].hdcp,
+           diff:Math.abs(ps[a].hdcp+ps[b].hdcp-ps[c[0]].hdcp-ps[c[1]].hdcp)};
+  });
+}
+
+function selectCombo(idx){
+  selectedCombo=idx;
+  document.querySelectorAll('.combo-item').forEach((el,i)=>{
+    el.classList.toggle('selected',i===idx);
+    el.querySelector('.ci-check').textContent=i===idx?'✓':'';
+  });
+}
+
+function updateTeamSuggestion(){
+  const ps=getSetupPlayers();
+  const el=document.getElementById('team-suggestion');
+  if(!el)return null;
+  if(ps.length<4){
+    el.innerHTML=`<span style="color:var(--tx1);font-size:14px">個人戦（${ps.length}名）</span>`;
+    selectedCombo=-1;return null;
+  }
+  const combos=allTeamCombos(ps);
+  const minDiff=Math.min(...combos.map(c=>c.diff));
+  const allSame=ps.every(p=>p.hdcp===ps[0].hdcp);
+  const tiedCombos=combos.filter(c=>c.diff===minDiff);
+
+  // Auto-select: unique best combo and not all same hdcp
+  if(!allSame && tiedCombos.length===1){
+    selectedCombo=-1;
+    const best=tiedCombos[0];
+    const t1=best.t1.map(i=>ps[i].name).join(' & ');
+    const t2=best.t2.map(i=>ps[i].name).join(' & ');
+    el.innerHTML=`<div style="display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin-bottom:6px">
+      <span class="tbadge ta">${t1} (${best.s1})</span>
+      <span style="color:var(--tx2);font-size:13px">vs</span>
+      <span class="tbadge tb">${t2} (${best.s2})</span>
+      <span style="color:var(--tx2);font-size:12px">差${best.diff}</span>
+    </div>
+    <div style="font-size:11px;color:var(--tx2);text-align:center;padding-bottom:4px">自動選択（最適な組み合わせ）</div>`;
+    return{teams:[best.t1,best.t2],diff:best.diff};
+  }
+
+  // Show picker: all same hdcp, or multiple combos tied for best
+  const autoIdx=combos.findIndex(c=>c.diff===minDiff);
+  if(selectedCombo===-1)selectedCombo=autoIdx;
+  const items=combos.map((c,i)=>{
+    const t1n=c.t1.map(j=>ps[j].name).join(' & ');
+    const t2n=c.t2.map(j=>ps[j].name).join(' & ');
+    const isSel=i===selectedCombo;
+    return `<div class="combo-item ${isSel?'selected':''}" onclick="selectCombo(${i})">
+      <div class="ci-teams">
+        <span class="tbadge ta" style="margin-right:4px">${t1n}</span>
+        <span style="font-size:11px;color:var(--tx2)">vs</span>
+        <span class="tbadge tb" style="margin-left:4px">${t2n}</span>
+      </div>
+      <span class="ci-diff">差${c.diff}</span>
+      <div class="ci-check">${isSel?'✓':''}</div>
+    </div>`;
+  }).join('');
+  el.innerHTML=`<div style="font-size:11px;color:var(--tx2);padding:6px 14px 2px">チームを選択してください</div>
+    <div class="combo-list">${items}</div>`;
+  const sel=combos[selectedCombo];
+  return{teams:[sel.t1,sel.t2],diff:sel.diff};
+}
+
+
+function resumeGame(){const saved=loadState();if(!saved)return;Object.assign(G,saved);document.getElementById('resume-area').innerHTML='';launchScoreScreen();}
+function dismissResume(){document.getElementById('resume-area').innerHTML='';}
+
+function startGame(){
+  const ps=getSetupPlayers();
+  if(ps.length<2){alert('2名以上入力してください');return;}
+  G.course=document.getElementById('course-sel').value;
+  G.start=document.getElementById('start-sel').value;
+  G.players=ps;
+  G.bets={i:parseInt(document.getElementById('bh-i').value)||0,
+           b:parseInt(document.getElementById('bh-b').value)||0,
+           t:parseInt(document.getElementById('bh-t').value)||0};
+  if(ps.length===4){
+    const ps4=getSetupPlayers();
+    const combos=allTeamCombos(ps4);
+    const idx=selectedCombo>=0&&selectedCombo<combos.length?selectedCombo:combos.findIndex(c=>c.diff===Math.min(...combos.map(x=>x.diff)));
+    const chosen=combos[idx];
+    G.teams=[chosen.t1,chosen.t2];G.teamHdcp=chosen.diff;
+  }else{G.teams=[];G.teamHdcp=0;}
+  G.scores={};
+  for(let h=0;h<18;h++){G.scores[h]={};ps.forEach(p=>{G.scores[h][p.idx]='';});}
+  G.currentHalf=G.start;G.currentHole=G.start==='out'?0:9;
+  G._savedAt=Date.now();saveState();launchScoreScreen();
+}
+
+function launchScoreScreen(){
+  document.getElementById('sc-name').textContent=COURSES[G.course].name;
+  // Activate OUT or IN tab depending on start
+  const tabOut=document.getElementById('tab-out'),tabIn=document.getElementById('tab-in'),tabCfg=document.getElementById('tab-config');
+  [tabCfg,tabOut,tabIn].forEach(t=>{if(t)t.classList.remove('active');});
+  if(G.currentHalf==='out'&&tabOut)tabOut.classList.add('active');
+  else if(tabIn)tabIn.classList.add('active');
+  document.getElementById('score-main').style.display='';
+  document.getElementById('score-config-view').style.display='none';
+  buildScoreScreen();showScreen('screen-score');
+}
+
+function switchScoreTab(tab,btn){
+  // Determine which screen we are on
+  const onScore=document.getElementById('screen-score').classList.contains('active');
+  const onResults=document.getElementById('screen-results').classList.contains('active');
+
+  if(tab==='results'){
+    showScreen('screen-results');
+    return;
+  }
+  if(tab==='config'){
+    if(!onScore) showScreen('screen-score');
+    document.querySelectorAll('#screen-score .ntab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('tab-config').classList.add('active');
+    document.getElementById('score-main').style.display='none';
+    document.getElementById('score-config-view').style.display='';
+    buildSetupView();
+    return;
+  }
+  // OUT or IN
+  if(!onScore) showScreen('screen-score');
+  document.querySelectorAll('#screen-score .ntab').forEach(t=>t.classList.remove('active'));
+  const tabEl=tab==='out'?document.getElementById('tab-out'):document.getElementById('tab-in');
+  if(tabEl) tabEl.classList.add('active');
+  document.getElementById('score-config-view').style.display='none';
+  document.getElementById('score-main').style.display='';
+  G.currentHalf=tab; G.currentHole=tab==='out'?0:9;
+  buildScoreScreen();
+}
+
+function switchToScore(half,btn){
+  switchScoreTab(half,btn);
+}
+
+function buildSetupView(){
+  const ps=G.players,bet=G.bets,course=COURSES[G.course];
+  const t0=G.teams&&G.teams[0]?G.teams[0].map(i=>ps.find(p=>p.idx===i)||ps[i]).map(p=>p.name).join(' & '):'—';
+  const t1=G.teams&&G.teams[1]?G.teams[1].map(i=>ps.find(p=>p.idx===i)||ps[i]).map(p=>p.name).join(' & '):'—';
+  const el=document.getElementById('score-config-view');
+  el.innerHTML=`
+    <div style="margin:10px 12px;background:var(--bg1);border:0.5px solid var(--bd3);border-radius:var(--r-lg);overflow:hidden">
+      <div style="padding:8px 14px;background:var(--bg2);border-bottom:0.5px solid var(--bd3);font-size:11px;font-weight:500;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em">設定確認（変更不可）</div>
+      <div class="setup-view">
+        <div class="sv-row"><span class="sv-lbl">コース</span><span class="sv-val">${course.name}</span></div>
+        <div class="sv-row"><span class="sv-lbl">スタート</span><span class="sv-val">${G.start==='out'?'OUT (1番〜)':'IN (10番〜)'}</span></div>
+        <div class="sv-row"><span class="sv-lbl">個人戦単価</span><span class="sv-val">${bet.i.toLocaleString()}</span></div>
+        <div class="sv-row"><span class="sv-lbl">ベスト単価</span><span class="sv-val">${bet.b.toLocaleString()}</span></div>
+        <div class="sv-row"><span class="sv-lbl">チーム単価</span><span class="sv-val">${bet.t.toLocaleString()}</span></div>
+        <div class="sv-row"><span class="sv-lbl">チームA</span><span class="sv-val"><span class="tbadge ta">${t0}</span></span></div>
+        <div class="sv-row"><span class="sv-lbl">チームB</span><span class="sv-val"><span class="tbadge tb">${t1}</span></span></div>
+        <div class="sv-row"><span class="sv-lbl">チームHDCP差</span><span class="sv-val">${G.teamHdcp}</span></div>
+        ${ps.map(p=>`<div class="sv-row"><span class="sv-lbl">${p.name}</span><span class="sv-val">HDCP ${p.hdcp}</span></div>`).join('')}
+      </div>
+    </div>
+    <button onclick="confirmReset()" style="display:block;width:calc(100% - 24px);margin:10px 12px;padding:12px;background:transparent;border:0.5px solid var(--bd2);border-radius:var(--r-lg);font-size:14px;font-weight:500;cursor:pointer;color:#A32D2D;text-align:center">再設定（データ消去）</button>`;
+}
+
+// Auto-best: returns {pIdx: 0|1|2} for a hole
+function calcAutoBests(hIdx){
+  const ps=G.players,hole=COURSES[G.course].holes[hIdx];
+  const res={};ps.forEach(p=>{res[p.idx]=0;});
+  // Only calculate when ALL players have entered a score
+  if(!ps.every(p=>G.scores[hIdx][p.idx]!==''))return res;
+  const entries=ps.map(p=>({idx:p.idx,s:parseInt(G.scores[hIdx][p.idx])}));
+  const min=Math.min(...entries.map(x=>x.s));
+  const best=entries.filter(x=>x.s===min);
+  // Best: sole lowest score only (ties = no best awarded)
+  // 1pt regardless of score; 2pts if exactly birdie (par-1)
+  if(best.length===1){
+    res[best[0].idx]=min===hole.par-1?2:1;
+  }
+  return res;
+}
+
+// switchHalf merged into switchScoreTab
+
+function buildScoreScreen(){updateSummaryBar();buildNavigator();buildHoleCard(G.currentHole);buildLeaderboard();buildTeamBoard();}
+
+function holeTotal(pIdx,h0,h1){
+  let tot=0;
+  for(let h=h0;h<=h1;h++){
+    const s=G.scores[h][pIdx];
+    tot+=s!==''?parseInt(s):COURSES[G.course].holes[h].par;
+  }
+  return tot;
+}
+function diffLabel(diff,anyEntered){
+  if(!anyEntered)return'';
+  if(diff===0)return'<span class="sc-diff-e">E</span>';
+  if(diff>0)return`<span class="sc-diff-pos">+${diff}</span>`;
+  return`<span class="sc-diff-neg">${diff}</span>`;
+}
+function updateSummaryBar(){
+  const bar=document.getElementById('score-summary'),ps=G.players;
+  const holes=COURSES[G.course].holes;
+  const parOut=holes.slice(0,9).reduce((a,h)=>a+h.par,0);
+  const parIn=holes.slice(9,18).reduce((a,h)=>a+h.par,0);
+
+  // Player name row (header chips)
+  const nameRow='<div class="sbar-row">'+
+    '<div class="sc" style="flex:0 0 52px;background:transparent;border-color:transparent"></div>'+
+    ps.map(p=>`<div class="sc"><div class="sl" style="font-weight:500;color:var(--tx1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${dn(p.name,5)}</div></div>`).join('')+
+  '</div>';
+
+  // OUT row
+  const outRow='<div class="sbar-row">'+
+    '<div class="sc" style="flex:0 0 52px"><div class="sl">OUT</div><div class="sv" style="color:var(--tx2)">${parOut}</div></div>'.replace('${parOut}',parOut)+
+    ps.map(p=>{
+      const tot=holeTotal(p.idx,0,8);
+      const entered=Array.from({length:9},(_,i)=>G.scores[i][p.idx]).some(s=>s!=='');
+      const diff=tot-parOut;
+      return`<div class="sc"><div class="sv">${tot} ${diffLabel(diff,entered)}</div></div>`;
+    }).join('')+
+  '</div>';
+
+  // IN row
+  const inRow='<div class="sbar-row">'+
+    '<div class="sc" style="flex:0 0 52px"><div class="sl">IN</div><div class="sv" style="color:var(--tx2)">${parIn}</div></div>'.replace('${parIn}',parIn)+
+    ps.map(p=>{
+      const tot=holeTotal(p.idx,9,17);
+      const entered=Array.from({length:9},(_,i)=>G.scores[i+9][p.idx]).some(s=>s!=='');
+      const diff=tot-parIn;
+      return`<div class="sc"><div class="sv">${tot} ${diffLabel(diff,entered)}</div></div>`;
+    }).join('')+
+  '</div>';
+
+  // TOTAL row
+  const totalRow='<div class="sbar-row">'+
+    '<div class="sc sc-total" style="flex:0 0 52px"><div class="sl">TOTAL</div><div class="sv">${parT}</div></div>'.replace('${parT}',parOut+parIn)+
+    ps.map(p=>{
+      const out=holeTotal(p.idx,0,8),inn=holeTotal(p.idx,9,17);
+      const tot=out+inn,diff=tot-(parOut+parIn);
+      const anyEntered=Array.from({length:18},(_,i)=>G.scores[i][p.idx]).some(s=>s!=='');
+      return`<div class="sc sc-total"><div class="sv">${tot} ${diffLabel(diff,anyEntered)}</div></div>`;
+    }).join('')+
+  '</div>';
+
+  bar.innerHTML=nameRow+outRow+inRow+totalRow;
+}
+
+function calcLiveStats(){
+  const ps=G.players,holes=COURSES[G.course].holes,n=ps.length;
+  const indivPts={};ps.forEach(p=>{indivPts[p.idx]=0;});
+  for(let i=0;i<n;i++){
+    for(let j=i+1;j<n;j++){
+      const pi=ps[i],pj=ps[j],dd=Math.abs(pi.hdcp-pj.hdcp);
+      const hi2=pi.hdcp>pj.hdcp?pi:pj;
+      let fI=0,fJ=0,bI=0,bJ=0;
+      holes.forEach((hole,hIdx)=>{
+        const si=G.scores[hIdx][pi.idx],sj=G.scores[hIdx][pj.idx];
+        if(si===''||sj==='')return;
+        let ai=parseInt(si),aj=parseInt(sj);
+        if(hole.hdcp<=dd){if(hi2.idx===pi.idx)ai--;else aj--;}
+        if(hIdx<9){if(ai<aj)fI++;else if(aj<ai)fJ++;}
+        else{if(ai<aj)bI++;else if(aj<ai)bJ++;}
+      });
+      let ptI=0,ptJ=0;
+      if(fI>fJ)ptI+=1;else if(fJ>fI)ptJ+=1;
+      if(bI>bJ)ptI+=2;else if(bJ>bI)ptJ+=2;
+      if(fI+bI>fJ+bJ)ptI+=1;else if(fJ+bJ>fI+bI)ptJ+=1;
+      indivPts[pi.idx]+=(ptI-ptJ);indivPts[pj.idx]+=(ptJ-ptI);
+    }
+  }
+  const bc={};ps.forEach(p=>{bc[p.idx]=0;});
+  for(let h=0;h<18;h++){const ab=calcAutoBests(h);ps.forEach(p=>{bc[p.idx]+=(ab[p.idx]||0);});}
+  const bp={};
+  ps.forEach(p=>{bp[p.idx]=bc[p.idx]*(n-1)-ps.filter(q=>q.idx!==p.idx).reduce((s,q)=>s+bc[q.idx],0);});
+  const money={};ps.forEach(p=>{money[p.idx]=(indivPts[p.idx]*G.bets.i)+(bp[p.idx]*G.bets.b);});
+  return{indivPts,bc,bp,money};
+}
+
+function calcTeamLive(){
+  if(!G.teams||G.teams.length!==2||G.teams[0].length<2||G.teams[1].length<2)return null;
+  if(G.players.length<2)return null;
+  const ps=G.players;
+  const holes=COURSES[G.course].holes;
+  const t0=G.teams[0].map(i=>ps.find(p=>p.idx===i)).filter(Boolean);
+  const t1=G.teams[1].map(i=>ps.find(p=>p.idx===i)).filter(Boolean);
+  if(!t0.length||!t1.length)return null;
+  let fT0=0,fT1=0,bT0=0,bT1=0;
+  holes.forEach((hole,hIdx)=>{
+    const s0=t0.map(p=>{const s=G.scores[hIdx]&&G.scores[hIdx][p.idx];return s!==''&&s!==undefined?Number(s):null;}).filter(v=>v!==null);
+    const s1=t1.map(p=>{const s=G.scores[hIdx]&&G.scores[hIdx][p.idx];return s!==''&&s!==undefined?Number(s):null;}).filter(v=>v!==null);
+    if(s0.length<t0.length||s1.length<t1.length)return;
+    const isH=G.teamHdcp>0&&hole.hdcp<=G.teamHdcp;
+    const ht=hole.hdcp%2===1?'best':'gross';
+    const b0=Math.min(...s0),b1=Math.min(...s1);
+    let bw=-1;
+    if(isH&&ht==='best'){const a0=b0-1;if(a0<b1)bw=0;else if(b1<a0)bw=1;}
+    else{if(b0<b1)bw=0;else if(b1<b0)bw=1;}
+    let g0=s0.reduce((a,b)=>a+b,0),g1=s1.reduce((a,b)=>a+b,0);
+    if(isH&&ht==='gross')g0--;
+    let gw=-1;if(g0<g1)gw=0;else if(g1<g0)gw=1;
+    const w0=(bw===0?1:0)+(gw===0?1:0),w1=(bw===1?1:0)+(gw===1?1:0);
+    if(hIdx<9){fT0+=w0;fT1+=w1;}else{bT0+=w0;bT1+=w1;}
+  });
+  return{t0,t1,fT0,fT1,bT0,bT1};
+}
+
+function buildLeaderboard(){
+  const ps=G.players;
+  if(ps.length<2){document.getElementById('leaderboard').innerHTML='';return;}
+  const{indivPts,bc}=calcLiveStats();
+  // Sort by individual points desc, then best count desc
+  const sorted=[...ps].sort((a,b)=>indivPts[b.idx]-indivPts[a.idx]||bc[b.idx]-bc[a.idx]);
+  const rows=sorted.map((p,rank)=>{
+    const pts=indivPts[p.idx];
+    const ptsStr=(pts>0?'+':'')+pts+'pt';
+    return `<div class="lb-row">
+      <span style="font-size:11px;color:var(--tx2);width:16px;flex-shrink:0">${rank+1}</span>
+      <div class="lb-av ${PC[p.idx]}">${String.fromCharCode(65+p.idx)}</div>
+      <span class="lb-name" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:90px">${dn(p.name,6)}</span>
+      <span class="lb-pts" style="margin-left:auto">${ptsStr}</span>
+      <span style="font-size:12px;color:var(--tx2);margin-left:10px">B:${bc[p.idx]}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('leaderboard').innerHTML=`
+    <div class="lb">
+      <div class="lb-hdr"><span>リーダーズボード</span><span style="font-size:10px;font-weight:400">個人戦pt / ベスト数</span></div>
+      ${rows}
+    </div>`;
+}
+
+function buildTeamBoard(){
+  const el=document.getElementById('team-board');
+  const tr=calcTeamLive();
+  if(!tr){el.innerHTML='';return;}
+  const{t0,t1,fT0,fT1,bT0,bT1}=tr;
+  const t0n=t0.map(p=>dn(p.name,5)).join('&');
+  const t1n=t1.map(p=>dn(p.name,5)).join('&');
+  const tot0=fT0+bT0, tot1=fT1+bT1;
+
+  const ps=G.players;
+  function halfDone(start,end){
+    return ps.every(p=>Array.from({length:end-start+1},(_,i)=>G.scores[start+i][p.idx]).every(s=>s!==''));
+  }
+  const outDone=halfDone(0,8);
+  const inDone=halfDone(9,17);
+
+  function colA(a,b,done){
+    if(!done)return 'color:var(--tx1)';
+    if(a>b)return 'color:#27500A;font-weight:500';
+    if(b>a)return 'color:#A32D2D;font-weight:500';
+    return 'color:var(--tx1)';
+  }
+  function colB(a,b,done){
+    if(!done)return 'color:var(--tx1)';
+    if(b>a)return 'color:#27500A;font-weight:500';
+    if(a>b)return 'color:#A32D2D;font-weight:500';
+    return 'color:var(--tx1)';
+  }
+
+  const baseRows=[
+    {lbl:'OUT', a:fT0, b:fT1, done:outDone},
+    {lbl:'IN', a:bT0, b:bT1, done:inDone},
+  ];
+  const rows=[
+    ...(G.start==='in'?[baseRows[1],baseRows[0]]:baseRows),
+    {lbl:'TOTAL', a:tot0, b:tot1, done:outDone&&inDone, bold:true},
+  ];
+
+  // Fixed column widths: label=32px | score=flex:1 | dash=20px | score=flex:1
+  // No extra element on the right — layout is always identical across all rows
+  const rowsHtml=rows.map(r=>{
+    const sz=r.bold?'font-size:17px':'font-size:15px';
+    return '<div style="display:flex;align-items:center;padding:10px 14px;border-bottom:0.5px solid var(--bd3)">'
+      +'<span style="width:32px;font-size:12px;color:var(--tx2)">'+r.lbl+'</span>'
+      +'<span style="flex:1;text-align:center;'+sz+';'+colA(r.a,r.b,r.done)+'">'+r.a+'</span>'
+      +'<span style="width:20px;text-align:center;font-size:11px;color:var(--tx2)">—</span>'
+      +'<span style="flex:1;text-align:center;'+sz+';'+colB(r.a,r.b,r.done)+'">'+r.b+'</span>'
+      +'</div>';
+  }).join('');
+
+  el.innerHTML='<div class="lb">'
+    +'<div class="lb-hdr"><span>チーム戦</span><span style="font-size:10px;font-weight:400">ポイント</span></div>'
+    +'<div style="display:flex;padding:8px 14px;border-bottom:0.5px solid var(--bd3)">'
+    +'<span style="width:32px"></span>'
+    +'<span class="tbadge ta" style="flex:1;text-align:center;padding:4px 8px">'+t0n+'</span>'
+    +'<span style="width:20px"></span>'
+    +'<span class="tbadge tb" style="flex:1;text-align:center;padding:4px 8px">'+t1n+'</span>'
+    +'</div>'
+    +rowsHtml
+    +'</div>';
+}
+function buildNavigator(){
+  const nav=document.getElementById('hole-navigator'),half=G.currentHalf,si=half==='out'?0:9;
+  let dots='';
+  for(let i=si;i<si+9;i++){
+    const h=COURSES[G.course].holes[i];
+    const done=G.players.every(p=>G.scores[i][p.idx]!=='');
+    dots+=`<div class="hdot ${done?'done':''} ${i===G.currentHole?'cur':''}" onclick="gotoHole(${i})">${h.n}</div>`;
+  }
+  nav.innerHTML=`<div class="hnav">
+    <button class="hnav-btn" onclick="prevHole()">&#8592;</button>
+    <div class="hdots">${dots}</div>
+    <button class="hnav-btn" onclick="nextHole()">&#8594;</button>
+  </div>`;
+}
+
+function commitParIfEmpty(hIdx){
+  const hole=COURSES[G.course].holes[hIdx];let changed=false;
+  G.players.forEach(p=>{if(G.scores[hIdx][p.idx]===''){G.scores[hIdx][p.idx]=hole.par;changed=true;}});
+  if(changed){G._savedAt=Date.now();saveState();}
+}
+function gotoHole(i){commitParIfEmpty(G.currentHole);G.currentHole=i;buildScoreScreen();}
+function prevHole(){const si=G.currentHalf==='out'?0:9;if(G.currentHole>si){commitParIfEmpty(G.currentHole);G.currentHole--;}buildScoreScreen();}
+function nextHole(){const ei=G.currentHalf==='out'?8:17;if(G.currentHole<ei){commitParIfEmpty(G.currentHole);G.currentHole++;}buildScoreScreen();}
+
+function buildHoleCard(hIdx){
+  const hole=COURSES[G.course].holes[hIdx],ps=G.players,ab=calcAutoBests(hIdx);
+  // Per-player hdcp badges vs each other
+  const hbadges={};ps.forEach(p=>{hbadges[p.idx]=[];});
+  for(let i=0;i<ps.length;i++){for(let j=i+1;j<ps.length;j++){
+    const pi=ps[i],pj=ps[j],diff=Math.abs(pi.hdcp-pj.hdcp);
+    if(diff>0&&hole.hdcp<=diff){
+      const higher=pi.hdcp>pj.hdcp?pi:pj,lower=pi.hdcp<pj.hdcp?pi:pj;
+      hbadges[higher.idx].push(`<span class="hdcp-badge">+1 vs ${lower.name.substring(0,2)}</span>`);
+    }
+  }}
+
+  let rows=ps.map(p=>{
+    const s=G.scores[hIdx][p.idx];
+    const sn=s!==''?parseInt(s):hole.par;
+    const isPar=s==='';
+    let vcls='stepper-val';
+    if(!isPar){
+      if(sn<=hole.par-2)vcls='stepper-val is-eagle';
+      else if(sn===hole.par-1)vcls='stepper-val is-birdie';
+      else if(ab[p.idx]>0)vcls='stepper-val is-best';
+      else if(sn===hole.par)vcls='stepper-val is-par';
+    } else {vcls='stepper-val is-par';}
+    const bv=ab[p.idx];
+    const bbadge=bv===2?`<span class="best-badge bb-bird">★★</span>`:bv===1?`<span class="best-badge bb-norm">★</span>`:'';
+    const disp=isPar?hole.par:sn;
+    return `<div class="srow">
+      <div class="sav ${PC[p.idx]}">${String.fromCharCode(65+p.idx)}</div>
+      <div style="flex:1;min-width:0">
+        <div class="sname">${dn(p.name,5)}<span class="shb">HC${p.hdcp}</span>${hbadges[p.idx].join('')}${bbadge}</div>
+      </div>
+      <div class="stepper">
+        <button class="stepper-btn" onclick="stepScore(${hIdx},${p.idx},-1,${hole.par})">−</button>
+        <div class="${vcls}" id="sv-${hIdx}-${p.idx}">${disp}</div>
+        <button class="stepper-btn" onclick="stepScore(${hIdx},${p.idx},+1,${hole.par})">+</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  let teamHtml='';
+  if(ps.length===4&&G.teamHdcp>0&&hole.hdcp<=G.teamHdcp){
+    const type=hole.hdcp%2===1?'ベスト戦ハンデホール':'グロス戦ハンデホール';
+    teamHtml=`<div style="padding:5px 14px;background:var(--bg2);border-top:0.5px solid var(--bd3);font-size:11px;color:var(--tx2)">チーム: <span style="font-weight:500;color:var(--tx1)">${type}</span></div>`;
+  }
+
+  let resHtml='';
+
+  document.getElementById('hole-cards').innerHTML=`
+    <div class="hcard">
+      <div class="hcard-hdr">
+        <div><div class="hnum">${hole.n}番ホール</div><div class="hmeta">HDCP ${hole.hdcp}</div></div>
+        <div class="hpar">PAR ${hole.par}</div>
+      </div>
+      ${rows}${teamHtml}${resHtml}
+    </div>`;
+}
+
+function stepScore(hIdx,pIdx,delta,par){
+  const cur=G.scores[hIdx][pIdx];
+  const base=cur===''?par:parseInt(cur);
+  const next=Math.max(1,Math.min(15,base+delta));
+  setScore(hIdx,pIdx,next);
+}
+
+function setScore(hIdx,pIdx,val){
+  G.scores[hIdx][pIdx]=val!==''&&val!==null?parseInt(val):'';
+  G._savedAt=Date.now();saveState();
+  buildScoreScreen();
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='screen-results')buildResults();
+}
+
+function confirmReset(){
+  document.getElementById('reset-modal').style.display='flex';
+}
+function closeResetModal(){
+  document.getElementById('reset-modal').style.display='none';
+}
+function doReset(){
+  closeResetModal();
+  clearState();
+  G.players=[];G.teams=[];G.teamHdcp=0;G.scores={};
+  G.bets={i:300,b:100,t:500};
+  G.currentHalf='out';G.currentHole=0;
+  selectedCombo=-1;
+  // Reset HDCP steppers
+  const defs=[18,20,16,22];
+  for(let i=0;i<4;i++){
+    const hv=document.getElementById('hv'+i);
+    const ph=document.getElementById('ph'+i);
+    const pn=document.getElementById('pn'+i);
+    if(hv)hv.textContent=String(defs[i]);
+    if(ph)ph.value=String(defs[i]);
+    if(pn)pn.value='';
+  }
+  // Reset bet displays
+  ['i','b','t'].forEach((k,j)=>{
+    const el=document.getElementById('bv-'+k);
+    const vals={i:300,b:100,t:500};
+    if(el)el.textContent=''+vals[k].toLocaleString();
+    const hid=document.getElementById('bh-'+k);
+    if(hid)hid.value=String(vals[k]);
+  });
+  document.getElementById('course-sel').value='chichibu';
+  document.getElementById('start-sel').value='out';
+  updateTeamSuggestion();
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-setup').classList.add('active');
+}
+
+function buildResults(){
+  const ps=G.players,bet=G.bets,holes=COURSES[G.course].holes,n=ps.length;
+  document.getElementById('res-sub').textContent=`${ps.map(p=>p.name).join(' / ')} — ${COURSES[G.course].name}`;
+  const indiv={};ps.forEach(p=>{indiv[p.idx]=0;});
+  const mpd={};ps.forEach(p=>{mpd[p.idx]={};ps.forEach(q=>{if(p.idx!==q.idx)mpd[p.idx][q.idx]={ptI:0,ptJ:0,fI:0,fJ:0,bI:0,bJ:0};});});
+  for(let i=0;i<n;i++){for(let j=i+1;j<n;j++){
+    const pi=ps[i],pj=ps[j],dd=Math.abs(pi.hdcp-pj.hdcp),hi2=pi.hdcp>pj.hdcp?pi:pj;
+    let fI=0,fJ=0,bI=0,bJ=0;
+    holes.forEach((hole,hIdx)=>{
+      const si=G.scores[hIdx][pi.idx],sj=G.scores[hIdx][pj.idx];
+      if(si===''||sj==='')return;
+      let ai=parseInt(si),aj=parseInt(sj);
+      if(hole.hdcp<=dd){if(hi2.idx===pi.idx)ai--;else aj--;}
+      if(hIdx<9){if(ai<aj)fI++;else if(aj<ai)fJ++;}
+      else{if(ai<aj)bI++;else if(aj<ai)bJ++;}
+    });
+    let ptI=0,ptJ=0;
+    if(fI>fJ)ptI+=1;else if(fJ>fI)ptJ+=1;
+    if(bI>bJ)ptI+=2;else if(bJ>bI)ptJ+=2;
+    if(fI+bI>fJ+bJ)ptI+=1;else if(fJ+bJ>fI+bI)ptJ+=1;
+    indiv[pi.idx]+=(ptI-ptJ);indiv[pj.idx]+=(ptJ-ptI);
+    mpd[pi.idx][pj.idx]={ptI,ptJ,fI,fJ,bI,bJ};
+    mpd[pj.idx][pi.idx]={ptI:ptJ,ptJ:ptI,fI:fJ,fJ:fI,bI:bJ,bJ:bI};
+  }}
+  const bc={};ps.forEach(p=>{bc[p.idx]=0;});
+  for(let h=0;h<18;h++){const ab=calcAutoBests(h);ps.forEach(p=>{bc[p.idx]+=(ab[p.idx]||0);});}
+  const bp={};ps.forEach(p=>{bp[p.idx]=bc[p.idx]*(n-1)-ps.filter(q=>q.idx!==p.idx).reduce((s,q)=>s+bc[q.idx],0);});
+  const tr=calcTeamLive();
+  const tot={};
+  ps.forEach(p=>{
+    const iv=indiv[p.idx]*bet.i,bv=bp[p.idx]*bet.b;
+    let tv=0;
+    if(tr){
+      const isT0=G.teams[0].includes(p.idx);
+      // front: +bet if win, -bet if lose, 0 if draw
+      const fw=isT0?(tr.fT0>tr.fT1?1:tr.fT0<tr.fT1?-1:0):(tr.fT1>tr.fT0?1:tr.fT1<tr.fT0?-1:0);
+      const bw=isT0?(tr.bT0>tr.bT1?1:tr.bT0<tr.bT1?-1:0):(tr.bT1>tr.bT0?1:tr.bT1<tr.bT0?-1:0);
+      tv=fw*bet.t + bw*bet.t;
+    }
+    tot[p.idx]=iv+bv+tv;
+  });
+  let html='';
+  ps.forEach(p=>{
+    const total=tot[p.idx],cls=total>0?'pos':total<0?'neg':'zero',sign=total>=0?'+':'';
+    let detail=ps.filter(q=>q.idx!==p.idx).map(q=>{
+      const m=mpd[p.idx][q.idx];if(!m)return'';
+      const net=m.ptI-m.ptJ,nc=net>0?'pos':net<0?'neg':'zero',ns=net>=0?'+':'';
+      const fR=m.fI>m.fJ?'○':m.fI<m.fJ?'✕':'-',bR=m.bI>m.bJ?'○':m.bI<m.bJ?'✕':'-';
+      const tR=(m.fI+m.bI)>(m.fJ+m.bJ)?'○':(m.fI+m.bI)<(m.fJ+m.bJ)?'✕':'-';
+      return '<div class="rrow"><span class="rlbl">vs '+q.name+'</span>'
+        +'<span style="font-size:11px;color:var(--tx2)">前'+fR+' 後'+bR+' 計'+tR+'</span>'
+        +'<span class="rval '+nc+'">'+ns+net+'pt</span></div>';
+    }).join('');
+    const im=indiv[p.idx]*bet.i, bm=bp[p.idx]*bet.b;
+    // Team subtotal for this player
+    let teamRow='';
+    if(tr){
+      const isT0=G.teams[0].includes(p.idx);
+      const fw=isT0?(tr.fT0>tr.fT1?1:tr.fT0<tr.fT1?-1:0):(tr.fT1>tr.fT0?1:tr.fT1<tr.fT0?-1:0);
+      const bw=isT0?(tr.bT0>tr.bT1?1:tr.bT0<tr.bT1?-1:0):(tr.bT1>tr.bT0?1:tr.bT1<tr.bT0?-1:0);
+      const tm=fw*bet.t+bw*bet.t;
+      const tmc=tm>=0?'pos':'neg', tms=tm>=0?'+':'';
+      teamRow='<div class="rrow"><span class="rlbl">チーム戦小計</span>'
+        +'<span class="rval '+tmc+'">'+tms+''+Math.abs(tm).toLocaleString()+'</span></div>';
+    }
+    const pav='<div class="av '+PC[p.idx]+'" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">'+String.fromCharCode(65+p.idx)+'</div>';
+    html+='<div class="rc">'
+      +'<div class="rh">'+pav
+      +'<div style="flex:1;margin-left:8px">'
+      +'<div style="font-size:15px;font-weight:500">'+p.name+'</div>'
+      +'<div style="font-size:11px;color:var(--tx2)">ベスト'+bc[p.idx]+'個 / HDCP'+p.hdcp+'</div>'
+      +'</div>'
+      +'<div class="ramount '+cls+'">'+sign+''+Math.abs(total).toLocaleString()+'</div>'
+      +'</div>'
+      +detail
+      +'<div class="rrow"><span class="rlbl">個人戦小計</span><span class="rval '+(im>=0?'pos':'neg')+'">'+(im>=0?'+':'')+''+im.toLocaleString()+'</span></div>'
+      +'<div class="rrow"><span class="rlbl">ベスト戦小計</span><span class="rval '+(bm>=0?'pos':'neg')+'">'+(bm>=0?'+':'')+''+bm.toLocaleString()+'</span></div>'
+      +teamRow
+      +'</div>';
+  });
+  if(tr){
+    const{t0,t1,fT0,fT1,bT0,bT1}=tr;
+    const t0n=t0.map(p=>p.name).join(' & '), t1n=t1.map(p=>p.name).join(' & ');
+    const fw=fT0>fT1?1:fT0<fT1?-1:0, bw=bT0>bT1?1:bT0<bT1?-1:0;
+    const hasBet=bet.t>0;
+    function teamMoneyStr(dir){
+      if(!hasBet) return '';
+      const m=dir*bet.t;
+      const cls=m>0?'pos':m<0?'neg':'zero';
+      return ' <span class="rval '+cls+'">'+(m>=0?'+':'')+''+m.toLocaleString()+'</span>';
+    }
+    function teamResultStr(a,b,tn0,tn1){
+      if(a>b) return '<span class="twin">'+tn0+' 勝</span>';
+      if(b>a) return '<span class="tlose">'+tn1+' 勝</span>';
+      return '<span class="tdraw">引き分け</span>';
+    }
+    html+='<div class="rc">'
+      +'<div class="rh" style="flex-direction:column;align-items:flex-start;gap:6px">'
+      +'<div style="font-size:15px;font-weight:500">チーム戦</div>'
+      +'<div style="display:flex;gap:8px">'
+      +'<span class="tbadge ta">'+t0n+'</span>'
+      +'<span style="color:var(--tx2);font-size:12px">vs</span>'
+      +'<span class="tbadge tb">'+t1n+'</span>'
+      +(G.teamHdcp>0?'<span style="color:var(--tx2);font-size:11px">HDCP差'+G.teamHdcp+'</span>':'')
+      +'</div></div>'
+      +'<div class="rrow"><span class="rlbl">前半 ('+fT0+'-'+fT1+')</span>'
+      +'<span>'+teamResultStr(fT0,fT1,t0n,t1n)+teamMoneyStr(fw)+'</span></div>'
+      +'<div class="rrow"><span class="rlbl">後半 ('+bT0+'-'+bT1+')</span>'
+      +'<span>'+teamResultStr(bT0,bT1,t0n,t1n)+teamMoneyStr(bw)+'</span></div>'
+      +(hasBet
+        ? '<div class="rrow"><span class="rlbl">設定単価</span><span class="rval">'+bet.t.toLocaleString()+'/勝（各人）</span></div>'
+        : '<div class="rrow"><span class="rlbl">設定単価</span><span style="color:var(--tx2)">なし（勝敗のみ）</span></div>')
+      +'</div>';
+  }
+  document.getElementById('results-content').innerHTML=html;
+}
+
+init();
+</script>
+</body>
+</html>
